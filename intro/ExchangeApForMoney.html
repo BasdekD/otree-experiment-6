@@ -1,0 +1,28 @@
+{{ block title }}
+    Third way of using Action Points:<br/>
+    Exchange Action Points for money
+{{ endblock }}
+
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify">
+    <p>
+        Low-income members can exchange their Action Points for money.<br/>
+        <b>For each Action Point</b> low-income members exchange, they receive <b>£{{ session.config.ap_to_money_cu }}</b>
+    </p>
+    <p>
+        <b>Example 1:</b> A low-income member who exchanges his/her <b>2 Action Points</b> for money will receive
+        an additional income of <b>£{{ example_1_cu }}.</b>
+    </p>
+    <p>
+        <b>Example 2:</b> A low-income member who exchanges his/her <b>{{ session.config.initial_action_points }}(all)
+        Action Points</b> for money will receive an additional income of <b>£{{ example_2_cu }}.</b>
+    </p>
+
+</div>
+
+{{ next_button }}
+
+{{ endblock }}

@@ -1,10 +1,10 @@
 from otree.api import *
 
 
-class Constants(BaseConstants):
-    name_in_url = 'ending'
-    players_per_group = None
-    num_rounds = 1
+class C(BaseConstants):
+    NAME_IN_URL = 'ending'
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 1
 
 
 class Subsession(BaseSubsession):
@@ -23,4 +23,9 @@ class Player(BasePlayer):
     pass
 
 
-page_sequence = []
+# PAGES
+class EndPage(Page):
+    pass
+
+
+page_sequence = [EndPage]

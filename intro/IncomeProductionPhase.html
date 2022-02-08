@@ -1,0 +1,26 @@
+{{ block title }}
+    Income Production Phase
+{{ endblock }}
+
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify">
+    <p>First, you will perform a <b>Counting Zeros task</b> to produce your income.</p>
+    <p>During this task, you have to <b>count how many zeros (0) are contained in 5x5 tables of numbers</b> and write the
+        number of zeros in a box next to each table (see example below).</p>
+    <p>You have <b>2 minutes</b> at your disposal to solve as many tables as possible by counting the zeros correctly.</p>
+    <p><b>To produce your income, the number of tables you solve should exceed a <u>threshold</u> that is unknown to you.</b></p>
+    <p>Since the threshold is unknown, <b>you need to solve as many tables as possible within 2 minutes</b> to increase <b>
+        your chances</b> of producing your income.</p>
+    <p>Below, you can see an example of the task with three solved tables:</p>
+</div>
+
+<div style="text-align: center">
+    <img src="{{ static 'intro/income-production-phase.jpg' }}" alt="example task" height="400px" width="auto"/>
+</div>
+
+<p style="margin-top: 20px">{{ next_button }}</p>
+
+{{ endblock }}

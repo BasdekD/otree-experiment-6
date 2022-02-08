@@ -1,0 +1,38 @@
+{{ block title}}
+    First Way of Using Action Points:<br/>
+    Moving to the High-income Group
+{{ endblock }}
+
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify">
+    <p>There is a <b>
+        {{ if session.config.mobility == 'low' }}
+            10%
+        {{ else }}
+            40%
+        {{ endif }}
+        probability that each round is a <u>moving round.</u></b></p>
+    <p>
+        In a moving round, the <b>two, out of the four, low-income members</b> who allocated the <b>most Action Points to
+        their personal account</b> will move to the high-income group.
+    </p>
+    <p>
+        If the hypothetical round below is a <b>moving round,</b> low-income members <b>A and C</b> will move to the high-income
+        group and will <b>receive the final income of the high-income group.</b>
+    </p>
+    <p>
+        However, if this round is <b>not a moving round, all low-income members will remain to the low-income group
+        and will receive the final income of this group.</b>
+    </p>
+</div>
+
+<div style="text-align: center">
+    <img src="{{ static 'intro/moving-group.jpg' }}" alt="example task" height="200px" width="auto"/>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}

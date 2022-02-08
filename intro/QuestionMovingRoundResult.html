@@ -1,0 +1,25 @@
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+{{ if result == "correct" }}
+  <div style="text-align: justify">
+    <p>
+      <b>Your answer is correct!</b> You earned a bonus of <b>&pound;{{ session.config.compr_ques_bonus }}</b>
+    </p>
+  </div>
+{{ else }}
+  <p style="margin-bottom: 40px;">
+      <b>Your answer is wrong.</b><br/>
+      As you can see below, the correct answer is the following:<br/>
+      Low-income members <b>B and D</b> will move to the high-income group in this moving round because they are
+      the two low-income members who allocated <b>the most Action Points to their personal account.</b>
+  </p>
+
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="{{ static 'intro/answer-moving-round.jpg' }}" alt="example task" height="200px" width="auto"/>
+    </div>
+{{ endif }}
+{{ next_button }}
+
+{{ endblock }}

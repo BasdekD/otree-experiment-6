@@ -1,0 +1,49 @@
+{{ block title}}
+    First way of using Action Points:<br/>
+    Redistributing Income Between the Two Groups
+{{ endblock }}
+
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify">
+    <p>
+        If the <b>four low-income members</b> contribute, <b>in total, from
+        {{ if session.config.efficacy == 'high' }}
+            12 to 23
+        {{ else }}
+            28 to 39
+        {{ endif }}
+            Action Points to the public pool,</b>
+        the <b>income of the low-income group increases from 1£ to 2£ and the income of the high-income group
+        decreases from 5£ to 4£.</b>
+    </p>
+        <p>
+        If the <b>four low-income members</b> contribute, <b>in total,
+        {{ if session.config.efficacy == 'high' }}
+            24
+        {{ else }}
+            40
+        {{ endif }}
+            or more Action Points to the public pool,</b>
+        the <b>income of the low-income group increases from 1£ to 3£ and the income of the high-income group
+        decreases from 5£ to 3£.</b>
+    </p>
+
+</div>
+
+<div style="text-align: center">
+    {{ if session.config.efficacy == 'high' }}
+        <img src="{{ static 'intro/high-efficacy-table.jpg' }}" alt="example task" height="140px" width="auto"/>
+    {{ else }}
+        <img src="{{ static 'intro/low-efficacy-table.jpg' }}" alt="example task" height="140px" width="auto"/>
+    {{ endif }}
+</div>
+
+<p>*Each low-income member is endowed with 10 Action Points and thus <b>in total the four low-income members have 40 Action Points.</b></p>
+
+
+{{ next_button }}
+
+{{ endblock }}

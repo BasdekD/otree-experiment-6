@@ -1,6 +1,8 @@
 from otree.api import *
 import csv
 import logging
+from datetime import date
+import random
 
 c = Currency
 doc = """
@@ -8,16 +10,17 @@ Your app description
 """
 
 
-class Constants(BaseConstants):
-    name_in_url = 'intro'
-    players_per_group = None
-    num_rounds = 1
-    num_of_tables = 50
-    comprehension_question_bonus = 0.10
-    max_consecutive_timeout_pages = 2
+class C(BaseConstants):
+    NAME_IN_URL = 'intro'
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 1
+    NUM_OF_TABLES = 50
+    TASK_THRESHOLD = 1
+    COMPREHENSION_QUESTION_BONUS = 0.10
+    MAX_CONSECUTIVE_TIMEOUT_PAGES = 2
 
     with open('tables.csv', encoding='utf-8-sig') as table_file:
-        tables = list(csv.DictReader(table_file))
+        TABLES = list(csv.DictReader(table_file))
 
 
 class Subsession(BaseSubsession):
@@ -25,25 +28,31 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession: Subsession):
-    import random
     logging.info("Creating intro session")
 
     # Initializing participant's fields
     for player in subsession.get_players():
+        player.participant.exceeded_task_threshold = True
+        player.participant.solved_tables_for_ending_module = 0
         player.participant.force_end = False
         player.participant.is_dropout = False
         player.participant.has_reached_main = False
 
-    # Get 50 randomly selected tables for the practice real effort round
-    random_tables = random.sample(Constants.tables, Constants.num_of_tables)
+    # Get 50 randomly selected TABLES for the practice round
+    subsession.session.vars['tables_practice'],  subsession.session.vars['answers_practice'] = get_random_tables()
+    # Get 50 randomly selected TABLES for the real task
+    subsession.session.vars['tables_real_task'],  subsession.session.vars['answers_real_task'] = get_random_tables()
+
+
+def get_random_tables():
+    random_tables = random.sample(C.TABLES, C.NUM_OF_TABLES)
     tables = list()
     for table in random_tables:
         tables.append(table['table'])
-    subsession.session.vars['tables_intro'] = tables
     answers = list()
     for table in random_tables:
         answers.append(int(table['zeros']))
-    subsession.session.vars['answers_intro'] = answers
+    return tables, answers
 
 
 class Group(BaseGroup):
@@ -105,20 +114,11 @@ class Player(BasePlayer):
     incorrect_counter = models.IntegerField()
     number_of_consecutive_timeout_pages = models.IntegerField(initial=0)
 
-    # TODO: Review the comprehension questions
-    question_payrate = models.IntegerField(
+    question_final_income = models.IntegerField(
         choices=[1, 2, 3, 4],
         widget=widgets.RadioSelect
     )
-    question_contribution = models.IntegerField(
-        choices=[1, 2, 3, 4],
-        widget=widgets.RadioSelect
-    )
-    question_switching_1 = models.IntegerField(
-        choices=[1, 2, 3, 4],
-        widget=widgets.RadioSelect
-    )
-    question_switching_2 = models.IntegerField(
+    question_moving_round = models.IntegerField(
         choices=[1, 2, 3, 4],
         widget=widgets.RadioSelect
     )
@@ -136,8 +136,8 @@ class Player(BasePlayer):
                              ]
         self.correct_counter = 0
         self.incorrect_counter = 0
-        for i in range(len(self.session.vars['answers_intro'])):
-            if submitted_answers[i] == self.session.vars['answers_intro'][i]:
+        for i in range(len(self.session.vars['answers_real_task'])):
+            if submitted_answers[i] == self.session.vars['answers_real_task'][i]:
                 self.correct_counter += 1
             else:
                 self.incorrect_counter += 1
@@ -145,7 +145,7 @@ class Player(BasePlayer):
     def check_comprehension_questions(self, questions, answers):
         for i in range(len(questions)):
             if questions[i] == answers[i]:
-                self.payoff += cu(Constants.comprehension_question_bonus)
+                self.payoff += cu(C.COMPREHENSION_QUESTION_BONUS)
 
 
 def dropout_handler_before_next_page(player, timeout_happened):
@@ -154,7 +154,7 @@ def dropout_handler_before_next_page(player, timeout_happened):
         player.number_of_consecutive_timeout_pages += 1
     else:
         player.number_of_consecutive_timeout_pages = 0
-    if player.number_of_consecutive_timeout_pages >= Constants.max_consecutive_timeout_pages:
+    if player.number_of_consecutive_timeout_pages >= C.MAX_CONSECUTIVE_TIMEOUT_PAGES:
         participant.is_dropout = True
 
 
@@ -165,10 +165,365 @@ def dropout_handler_app_after_this_page(player, upcoming_apps):
         pass
 
 
+def question_final_income_get_answer_index(player):
+    return [2] if player.session.config['efficacy'] == 'high' else [4]
+
+
+def question_final_income_get_answer(player):
+    return 2 if player.session.config['efficacy'] == 'high' else 1
+
+
 # PAGES
 class Introduction(Page):
     pass
 
 
-page_sequence = [Introduction]
+class Introduction2(Page):
+    pass
+
+
+class InformedConsent(Page):
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(
+            today=str(date.today())
+        )
+
+
+class IncomeProductionPhase(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class PracticeRoundIntro(Page):
+    timeout_seconds = 30
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class PracticeRound(Page):
+    # timeout_seconds = 30
+    timeout_seconds = 5
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+    timer_text = "This page will be submitted automatically in:"
+
+    form_model = 'player'
+    form_fields = ['table_%s' % i for i in range(C.NUM_OF_TABLES)]
+
+    @staticmethod
+    def vars_for_template(player):
+        table_image_paths = list()
+        for table in player.session.vars['tables_practice']:
+            table_image_paths.append('intro/'+table+'.jpg')
+        return dict(
+            tables_in_round=table_image_paths
+        )
+
+
+class RealTaskIntro(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class RealTask(Page):
+    # timeout_seconds = 120
+    timeout_seconds = 10
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.get_practice_round_results()
+        if player.correct_counter < C.TASK_THRESHOLD:
+            player.participant.exceeded_task_threshold = False
+            player.participant.solved_tables_for_ending_module = player.correct_counter
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        if player.participant.is_dropout or not player.participant.exceeded_task_threshold:
+            return upcoming_apps[-1]
+
+    timer_text = "This page will be submitted automatically in:"
+
+    form_model = 'player'
+    form_fields = ['table_%s' % i for i in range(C.NUM_OF_TABLES)]
+
+    @staticmethod
+    def vars_for_template(player):
+        table_image_paths = list()
+        for table in player.session.vars['tables_real_task']:
+            table_image_paths.append('intro/'+table+'.jpg')
+        return dict(
+            tables_in_round=table_image_paths
+        )
+
+
+class TaskResults(Page):
+    timeout_seconds = 30
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class TwoGroups(WaitPage):
+    template_name = "_templates/global/IntroWaitPage.html"
+
+
+class GroupingResults(Page):
+    timeout_seconds = 30
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class ActionPoints(Page):
+    timeout_seconds = 180
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class TenIndependentRounds(Page):
+    timeout_seconds = 180
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class ApUsageExample(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class RedistributingIncomeFirst(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.session.config['order'] != 'mobility_first'
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class MovingGroupSecond(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.session.config['order'] != 'mobility_first'
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class MovingGroupFirst(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.session.config['order'] == 'mobility_first'
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class RedistributingIncomeSecond(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.session.config['order'] == 'mobility_first'
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
+class ExchangeApForMoney(Page):
+    timeout_seconds = 60
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(
+            example_1_cu=2 * player.session.config['ap_to_money_cu'],
+            example_2_cu=player.session.config['ap_to_money_cu'] * player.session.config['initial_action_points']
+        )
+
+
+class QuestionFinalIncome(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        correct_answer = question_final_income_get_answer_index(player)
+        player.check_comprehension_questions([player.question_final_income], correct_answer)
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+    form_model = 'player'
+    form_fields = ['question_final_income']
+
+
+class QuestionFinalIncomeResult(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+    @staticmethod
+    def vars_for_template(player):
+        correct_answer_index = question_final_income_get_answer_index(player)
+        correct_answer = question_final_income_get_answer(player)
+        if player.question_final_income == correct_answer_index[0]:
+            return dict(
+                result="correct",
+                correct_answer=correct_answer
+            )
+        else:
+            return dict(
+                result="incorrect",
+                correct_answer=correct_answer
+            )
+
+
+class QuestionMovingRound(Page):
+    timeout_seconds = 120
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        correct_answer = [3]
+        player.check_comprehension_questions([player.question_moving_round], correct_answer)
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+    form_model = 'player'
+    form_fields = ['question_moving_round']
+
+
+class QuestionMovingRoundResult(Page):
+    timeout_seconds = 60
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return dropout_handler_app_after_this_page(player, upcoming_apps)
+
+    @staticmethod
+    def vars_for_template(player):
+        correct_answer = 3
+        if player.question_moving_round == correct_answer:
+            return dict(
+                result="correct",
+            )
+        else:
+            return dict(
+                result="incorrect",
+            )
+
+
+page_sequence = [QuestionMovingRound, QuestionMovingRoundResult, Introduction, Introduction2, InformedConsent, IncomeProductionPhase, PracticeRoundIntro, PracticeRound,
+                 RealTaskIntro, RealTask, TaskResults, TwoGroups, GroupingResults, ActionPoints, TenIndependentRounds,
+                 ApUsageExample, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst,
+                 RedistributingIncomeSecond, ExchangeApForMoney, QuestionFinalIncome, QuestionFinalIncomeResult,
+                 QuestionMovingRound, QuestionMovingRoundResult]
 

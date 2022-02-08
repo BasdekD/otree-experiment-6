@@ -24,10 +24,22 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=1.7, doc=""
+    real_world_currency_per_point=1.00,
+    participation_fee=1.7,
+    low_income=1,
+    high_income=5,
+    ap_to_money_cu=0.05,
+    compr_ques_bonus=0.10,
+    initial_action_points=10,
+    order='mobility_first',
+    efficacy='high',
+    mobility='low',
+    prolific_completion_url="https://prolific.co/",
+    doc=""
 )
 
-PARTICIPANT_FIELDS = ['is_dropout', 'force_end', 'has_reached_main']
+PARTICIPANT_FIELDS = ['is_dropout', 'force_end', 'has_reached_main', 'exceeded_task_threshold',
+                      'solved_tables_for_ending_module']
 SESSION_FIELDS = ['prolific_completion_url']
 
 # ISO-639 code

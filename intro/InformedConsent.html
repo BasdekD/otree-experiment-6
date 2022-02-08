@@ -1,0 +1,40 @@
+{{ block scripts}}
+<script>
+  const checkbox = document.querySelector("input[name=checkbox]");
+  const button = document.getElementById("button")
+  button.disabled = true;
+  checkbox.addEventListener('change', function() {
+  button.disabled = !this.checked;
+});
+</script>
+{{ endblock }}
+
+{{ block title }}
+    Informed Consent
+{{ endblock }}
+
+{{ block content }}
+
+<div style="text-align: justify">
+  <p>I hereby give permission to use my data for scientific purposes.</p>
+  <p>I had enough time to decide whether I want to participate in the study.</p>
+  <p>I know that participation is voluntary, and I know that I can decide at any time to withdraw from the study.
+  I do not have to provide any justification for such a decision to quit. If I withdraw from the study, I forfeit any
+  monetary compensation.</p>
+  <p>
+    All data, including personal data such as age and gender, will be stored in anonymized form on the server of the
+  University of Maastricht and will consequently only be made public anonymously.
+  </p>
+
+  <p>The study has been approved by the ethical committee of Maastricht University.</p>
+
+  <p>Date ({{ today }})</p>
+  <p><input type="checkbox" name="checkbox"> I consent to participate</p>
+  <p>(If you do not want to participate you can simply close your browser page. In that case,
+  you will not be paid).</p>
+</div>
+
+<p><button class="otree-btn-next btn btn-primary" id="button">Next</button></p>
+{{ endblock }}
+
+

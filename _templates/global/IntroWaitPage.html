@@ -1,0 +1,25 @@
+{{ extends 'otree/WaitPage.html' }}
+
+{{ block title }}
+   Two Groups and Two Different Incomes
+{{ endblock }}
+
+{{ block content }}
+<div style="text-align: justify">
+    <p>Like <b>you, seven other participants</b> exceeded the unknown threshold and produced their income.</p>
+    <p>You and these seven other participants will be <b>randomly assigned</b> to either a <b>high-income</b>
+        or a <b>low-income</b> group:</p>
+        <ol>
+            <li><b>Four participants</b> will be randomly assigned to the <b>high-income group</b>
+                and their income will be <b>£{{ session.config.high_income }}.</b></li>
+            <li>The other <b>four participants</b> will be randomly assigned to the <b>low-income group</b>
+                and their income will be <b>£{{ session.config.low_income }}.</b></li>
+        </ol>
+
+    <p>
+        Now, <b>the computer will randomly assign</b> you and the other seven participants to either the <b>low-income</b> or the
+        <b>high-income group.</b>
+    </p>
+    <p>Please wait...</p>
+</div>
+{{ endblock }}

@@ -1,0 +1,13 @@
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify">
+    <p><b>You</b> were randomly assigned to the <b>low-income group.</b></p>
+    <p><b>Low-income members receive £{{ session.config.low_income }} as income.</b></p>
+    <p><b>High-income members receive £{{ session.config.high_income }} as income.</b></p>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
