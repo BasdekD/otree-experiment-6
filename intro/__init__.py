@@ -17,7 +17,6 @@ class C(BaseConstants):
     NUM_OF_TABLES = 50
     TASK_THRESHOLD = 1
     COMPREHENSION_QUESTION_BONUS = 0.10
-    MAX_CONSECUTIVE_TIMEOUT_PAGES = 2
 
     with open('tables.csv', encoding='utf-8-sig') as table_file:
         TABLES = list(csv.DictReader(table_file))
@@ -154,7 +153,7 @@ def dropout_handler_before_next_page(player, timeout_happened):
         player.number_of_consecutive_timeout_pages += 1
     else:
         player.number_of_consecutive_timeout_pages = 0
-    if player.number_of_consecutive_timeout_pages >= C.MAX_CONSECUTIVE_TIMEOUT_PAGES:
+    if player.number_of_consecutive_timeout_pages >= player.session.config['max_cons_timeout_pages']:
         participant.is_dropout = True
 
 
@@ -521,7 +520,7 @@ class QuestionMovingRoundResult(Page):
             )
 
 
-page_sequence = [QuestionMovingRound, QuestionMovingRoundResult, Introduction, Introduction2, InformedConsent, IncomeProductionPhase, PracticeRoundIntro, PracticeRound,
+page_sequence = [Introduction, Introduction2, InformedConsent, IncomeProductionPhase, PracticeRoundIntro, PracticeRound,
                  RealTaskIntro, RealTask, TaskResults, TwoGroups, GroupingResults, ActionPoints, TenIndependentRounds,
                  ApUsageExample, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst,
                  RedistributingIncomeSecond, ExchangeApForMoney, QuestionFinalIncome, QuestionFinalIncomeResult,

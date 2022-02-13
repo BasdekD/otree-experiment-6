@@ -31,6 +31,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     ap_to_money_cu=0.05,
     compr_ques_bonus=0.10,
     initial_action_points=10,
+    max_cons_timeout_pages = 2,
     order='mobility_first',
     efficacy='high',
     mobility='low',
