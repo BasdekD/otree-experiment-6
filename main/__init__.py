@@ -5,7 +5,7 @@ from otree.api import *
 class C(BaseConstants):
     NAME_IN_URL = 'main'
     PLAYERS_PER_GROUP = 4
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 10
     MAX_AP = 10
 
 
