@@ -2,7 +2,6 @@ from otree.api import *
 import csv
 import logging
 from datetime import date
-import random
 import helpers
 
 c = Currency
@@ -267,8 +266,8 @@ class TaskResults(Page):
         return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
-class TwoGroups(WaitPage):
-    template_name = "_templates/global/intro/IntroWaitPage.html"
+class TwoGroups(Page):
+    timeout_seconds = 10
 
 
 class GroupingResults(Page):
