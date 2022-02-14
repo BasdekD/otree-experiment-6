@@ -1,0 +1,30 @@
+{{ block title }}
+    Feedback: Moving to the High-Income Group
+{{ endblock }}
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify;">
+    <p>You allocated <b>{{player.personal_account_ap}} Action Points</b> to your personal account.</p>
+    <p><b>In this round, you {{ if not player.has_switched }}do not{{ endif }} move to the high-income group.</b></p>
+
+    {{ if not player.has_switched }}
+        <p>There are two possible reasons for this:</p>
+        <ol>
+            <li>
+                Either because <b> this round is not a moving round.<br/>
+                Remember that there is a {{ if session.config.mobility == 'low' }}10% {{ else }} 40% {{ endif }}
+                probability that each round is a moving round.</b>
+            </li>
+            <li>
+                Or this is a moving round but <b>two other low-income members allocated more Action Points than you</b>
+                to their personal account.
+            </li>
+        </ol>
+    {{ endif }}
+</div>
+    {{ next_button }}
+{{ endblock }}
+
+

@@ -8,12 +8,12 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='main',
-        num_demo_participants=12,
+        num_demo_participants=4,
         app_sequence=['main', 'ending']
     ),
     dict(
         name='experiment',
-        num_demo_participants=12,
+        num_demo_participants=8,
         app_sequence=['intro', 'main', 'ending']
     )
 ]
@@ -31,7 +31,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     ap_to_money_cu=0.05,
     compr_ques_bonus=0.10,
     initial_action_points=10,
-    max_cons_timeout_pages = 2,
+    max_cons_timeout_pages=2,
     order='mobility_first',
     efficacy='high',
     mobility='low',
@@ -39,8 +39,8 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
-PARTICIPANT_FIELDS = ['is_dropout', 'force_end', 'has_reached_main', 'exceeded_task_threshold',
-                      'solved_tables_for_ending_module']
+PARTICIPANT_FIELDS = ['is_dropout', 'exceeded_task_threshold', 'solved_tables_for_ending_module',
+                      'has_restate_consent', 'is_overbooked', 'has_reached_main']
 SESSION_FIELDS = ['prolific_completion_url']
 
 # ISO-639 code

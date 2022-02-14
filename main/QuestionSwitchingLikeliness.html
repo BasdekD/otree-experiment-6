@@ -1,0 +1,53 @@
+{{ block title }}
+    Please Answer the Following Question
+{{ endblock }}
+
+{{ block content }}
+
+<p>
+    In each round, how <b>likely</b> it is for a <b>low-income member to move to the high-income group?</b>
+</p>
+
+<style>
+  td {
+    width: 120px;
+    padding-left: 15px;
+    padding-right: 15px;
+    vertical-align: top;
+  }
+
+</style>
+
+{{ formfield_errors 'question_switching_likeliness' }}
+{{extends "_static/global/error_message.html"}}
+{{extends "_static/global/timer_display_setup.html"}}
+
+
+<div style="text-align: justify; margin-bottom: 30px; margin-top:50px;">
+  <table style="text-align: center">
+    <tbody>
+      <tr>
+        <td><input class="form-check-input" type="radio" id="1_1" name="question_switching_likeliness" value="1"></td>
+        <td><input class="form-check-input" type="radio" id="1_2" name="question_switching_likeliness" value="2"></td>
+        <td><input class="form-check-input" type="radio" id="1_3" name="question_switching_likeliness" value="3"></td>
+        <td><input class="form-check-input" type="radio" id="1_4" name="question_switching_likeliness" value="4"></td>
+        <td><input class="form-check-input" type="radio" id="1_5" name="question_switching_likeliness" value="5"></td>
+        <td><input class="form-check-input" type="radio" id="1_6" name="question_switching_likeliness" value="6"></td>
+        <td><input class="form-check-input" type="radio" id="1_7" name="question_switching_likeliness" value="7"></td>
+      </tr>
+      <tr>
+        <td><label for="1_1">Extremely Unlikely</label></td>
+        <td><label for="1_2">Unlikely</label></td>
+        <td><label for="1_3">Somewhat Unlikely</label></td>
+        <td><label for="1_4">Neutral</label></td>
+        <td><label for="1_5">Somewhat Likely</label></td>
+        <td><label for="1_6">Likely</label></td>
+        <td><label for="1_7">Extremely Likely</label></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{{ next_button }}
+
+{{ endblock }}

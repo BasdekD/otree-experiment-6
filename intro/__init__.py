@@ -3,6 +3,7 @@ import csv
 import logging
 from datetime import date
 import random
+import helpers
 
 c = Currency
 doc = """
@@ -38,20 +39,11 @@ def creating_session(subsession: Subsession):
         player.participant.has_reached_main = False
 
     # Get 50 randomly selected TABLES for the practice round
-    subsession.session.vars['tables_practice'],  subsession.session.vars['answers_practice'] = get_random_tables()
+    subsession.session.vars['tables_practice'],  subsession.session.vars['answers_practice'] = \
+        helpers.get_random_tables(C)
     # Get 50 randomly selected TABLES for the real task
-    subsession.session.vars['tables_real_task'],  subsession.session.vars['answers_real_task'] = get_random_tables()
-
-
-def get_random_tables():
-    random_tables = random.sample(C.TABLES, C.NUM_OF_TABLES)
-    tables = list()
-    for table in random_tables:
-        tables.append(table['table'])
-    answers = list()
-    for table in random_tables:
-        answers.append(int(table['zeros']))
-    return tables, answers
+    subsession.session.vars['tables_real_task'],  subsession.session.vars['answers_real_task'] = \
+        helpers.get_random_tables(C)
 
 
 class Group(BaseGroup):
@@ -147,31 +139,6 @@ class Player(BasePlayer):
                 self.payoff += cu(C.COMPREHENSION_QUESTION_BONUS)
 
 
-def dropout_handler_before_next_page(player, timeout_happened):
-    participant = player.participant
-    if timeout_happened:
-        player.number_of_consecutive_timeout_pages += 1
-    else:
-        player.number_of_consecutive_timeout_pages = 0
-    if player.number_of_consecutive_timeout_pages >= player.session.config['max_cons_timeout_pages']:
-        participant.is_dropout = True
-
-
-def dropout_handler_app_after_this_page(player, upcoming_apps):
-    if player.participant.is_dropout:
-        return upcoming_apps[-1]
-    else:
-        pass
-
-
-def question_final_income_get_answer_index(player):
-    return [2] if player.session.config['efficacy'] == 'high' else [4]
-
-
-def question_final_income_get_answer(player):
-    return 2 if player.session.config['efficacy'] == 'high' else 1
-
-
 # PAGES
 class Introduction(Page):
     pass
@@ -184,7 +151,7 @@ class Introduction2(Page):
 class InformedConsent(Page):
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
     @staticmethod
     def vars_for_template(player):
@@ -198,11 +165,11 @@ class IncomeProductionPhase(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class PracticeRoundIntro(Page):
@@ -210,11 +177,11 @@ class PracticeRoundIntro(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class PracticeRound(Page):
@@ -223,11 +190,11 @@ class PracticeRound(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
     timer_text = "This page will be submitted automatically in:"
 
@@ -249,11 +216,11 @@ class RealTaskIntro(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class RealTask(Page):
@@ -266,7 +233,7 @@ class RealTask(Page):
         if player.correct_counter < C.TASK_THRESHOLD:
             player.participant.exceeded_task_threshold = False
             player.participant.solved_tables_for_ending_module = player.correct_counter
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
@@ -293,15 +260,15 @@ class TaskResults(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class TwoGroups(WaitPage):
-    template_name = "_templates/global/IntroWaitPage.html"
+    template_name = "_templates/global/intro/IntroWaitPage.html"
 
 
 class GroupingResults(Page):
@@ -309,11 +276,11 @@ class GroupingResults(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class ActionPoints(Page):
@@ -321,11 +288,11 @@ class ActionPoints(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class TenIndependentRounds(Page):
@@ -333,11 +300,11 @@ class TenIndependentRounds(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class ApUsageExample(Page):
@@ -345,11 +312,11 @@ class ApUsageExample(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class RedistributingIncomeFirst(Page):
@@ -361,11 +328,11 @@ class RedistributingIncomeFirst(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class MovingGroupSecond(Page):
@@ -377,11 +344,11 @@ class MovingGroupSecond(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class MovingGroupFirst(Page):
@@ -393,11 +360,11 @@ class MovingGroupFirst(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class RedistributingIncomeSecond(Page):
@@ -409,11 +376,11 @@ class RedistributingIncomeSecond(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class ExchangeApForMoney(Page):
@@ -421,11 +388,11 @@ class ExchangeApForMoney(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
     @staticmethod
     def vars_for_template(player):
@@ -440,13 +407,13 @@ class QuestionFinalIncome(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        correct_answer = question_final_income_get_answer_index(player)
+        correct_answer = helpers.question_final_income_get_answer_index(player)
         player.check_comprehension_questions([player.question_final_income], correct_answer)
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
     form_model = 'player'
     form_fields = ['question_final_income']
@@ -457,16 +424,16 @@ class QuestionFinalIncomeResult(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
     @staticmethod
     def vars_for_template(player):
-        correct_answer_index = question_final_income_get_answer_index(player)
-        correct_answer = question_final_income_get_answer(player)
+        correct_answer_index = helpers.question_final_income_get_answer_index(player)
+        correct_answer = helpers.question_final_income_get_answer(player)
         if player.question_final_income == correct_answer_index[0]:
             return dict(
                 result="correct",
@@ -486,11 +453,11 @@ class QuestionMovingRound(Page):
     def before_next_page(player: Player, timeout_happened):
         correct_answer = [3]
         player.check_comprehension_questions([player.question_moving_round], correct_answer)
-        dropout_handler_before_next_page(player, timeout_happened)
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
     form_model = 'player'
     form_fields = ['question_moving_round']
@@ -501,11 +468,12 @@ class QuestionMovingRoundResult(Page):
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        dropout_handler_before_next_page(player, timeout_happened)
+        player.participant.has_reached_main = True
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
-        return dropout_handler_app_after_this_page(player, upcoming_apps)
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
     @staticmethod
     def vars_for_template(player):

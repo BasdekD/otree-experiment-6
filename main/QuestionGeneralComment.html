@@ -1,0 +1,21 @@
+{{ block title }}
+    Please Answer the Following Question
+{{ endblock }}
+
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+{{ formfields }}
+
+{{ next_button }}
+
+{{ endblock }}
+
+{{ block scripts }}
+<script>
+    for (let ele of document.getElementsByTagName('textarea')) {
+        ele.rows = 10;
+    }
+</script>
+{{ endblock }}

@@ -4,13 +4,7 @@
 {{ block content }}
 
 <div style="text-align: justify;">
-    {{ if participant.force_end == True}}
-        <p>
-            The experiment is terminated because several other members left this session. You will be compensated
-            for the time you spent by receiving a participation fee of <b>2£.</b>
-        </p>
-
-    {{ elif participant.exceeded_task_threshold == False}}
+    {{ if participant.exceeded_task_threshold == False}}
             <p>Unfortunately, you only solved <b>{{ participant.solved_tables_for_ending_module }} tables</b> and <b>you did not
                 exceed the unknown threshold!</b></p>
             <p>This means that <b>you did not produce your income, and you cannot participate in the rest of the study.</b></p>
@@ -26,26 +20,22 @@
         <p>
             The experiment is terminated because the maximum number of participants has been reached.
         </p>
-    {{ elif participant.incomplete_experiment == True}}
+    {{ elif not participant.has_restate_consent }}
         <p>
-            The experiment is terminated because the required number of participants has not been reached.
-            You will receive a participation fee of 1.5£ plus your comprehension
-            bonus.
+            You did not restate your consent. <b>Your data will not be used for any purpose.</b>
+            You will receive the <b>participation fee ({{ session.config.participation_fee }}) within the next
+            three days.</b>
         </p>
-
     {{ else }}
         <p>
-            You have now finished the experiment.<br/>
-            Please note that you will receive the <b>participation fee ({{ session.config.participation_fee }})
-            and the bonus payment (between 0£ and 8£)
+            You have now finished the study.<br/>
+            Please note that you will receive the <b>participation fee ({{ session.config.participation_fee }}),
+            the comprehension bonus that you earned and the income that you earned in a randomly determined round
             within the next three days.</b>
         </p>
-    <p>
-        Your bonus payment will be determined based on <b>your final income in a randomly determined round.</b>
-    </p>
     {{ endif }}
     <p>
-        Thank you very much for taking the time to participate in our experiment.<br/>
+        Thank you very much for taking the time to participate in our study.<br/>
         If you have any questions or concerns, please do not hesitate to contact us at:
         <a href="mailto:i.lois@maastrichtuniversity.nl">i.lois@maastrichtuniversity.nl</a>
     </p>

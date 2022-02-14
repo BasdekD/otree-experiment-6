@@ -1,0 +1,46 @@
+{{ block title }}
+    Debriefing
+{{ endblock }}
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify;">
+    <p>
+        The aim of this study is to investigate how people react in unequal distribution of resources. The existing
+        literature points two different types of reactions. The collective ones when people try to improve the
+        position of the group as whole and the individual one when people try to improve their own position. In this
+        study we investigate the factors that might affect whether people opt to react either collectively or
+        individually.
+    </p>
+    <p>
+        This study was indeed an interactive study where you and three other participants made real-time decisions
+        as members of the low-income group. In each round, you received real feedback about the contributions of
+        low-income members to the public pool and the resulting redistribution of income from the high-income to
+        the low-income group.
+    </p>
+    <p>However, <b>this study included two aspects of deception.</b></p>
+    <p>
+        {{ if session.config.mobility == 'low' }}
+            You were informed that the probability of moving to the high-income group is 10% <b>in each round.</b>
+            However, in reality, it was predetermined that there is one moving round and the moving round was
+            always the seventh round.
+        {{ else }}
+            You were informed that the probability of moving to the high-income group is 40% <b>in each round.</b>
+            However, in reality, it was predetermined that there are four moving rounds and the moving rounds
+            were always the last four rounds.
+        {{ endif }}
+        The reason for this false information is that we were interested in how you would respond in the first six
+        rounds after repeatedly receiving feedback of not moving to the high-income group.
+    </p>
+    <p>
+        Second, you were informed that you were randomly assigned to either a low-income or high-income group.
+        However, the high-income group did not really exist, and <b>all participants were assigned to the low-income
+        group.</b> The reason for this deception aspect is that this study focuses on how members of the low-income
+        group react to inter-group inequality.
+    </p>
+</div>
+    {{ next_button }}
+{{ endblock }}
+
+

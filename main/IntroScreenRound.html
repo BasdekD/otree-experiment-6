@@ -1,0 +1,50 @@
+{{ block title }}
+   {{ if subsession.round_number == 1 }} First {{ else }} New {{ endif }}round starts.
+{{ endblock }}
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+
+<p>Please decide <b>how to use your 10 Action Points</b> in this round.</p>
+
+{{ if session.config.order == 'mobility_first' }}
+<p><b>First way: </b>Allocate your Action Points to <b>your personal account.</b><br/>
+There is a <b>{{ if session.config.mobility == 'low' }}10% {{ else }} 40% {{ endif }}probability</b> that this round is a
+    <b>moving round.</b><br/>
+If this is a moving round, the <b>two low-income members who allocate the most Action Points to their personal
+    account will move to the high-income group.</b></p>
+{{ endif }}
+
+<p><b>{{ if session.config.order == 'mobility_first' }}Second {{ else }} First {{ endif }} way:</b> Contribute your Action Points
+    to the <b>public pool</b> to achieve <b>income redistribution from the high-income group to the
+        low-income group</b> in the following way:</p>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    {{ if session.config.efficacy == 'high' }}
+        <img src="{{ static 'main/high-efficacy-table.jpg' }}" alt="example task" height="150px" width="auto"/>
+    {{ else }}
+        <img src="{{ static 'main/low-efficacy-table.jpg' }}" alt="example task" height="150px" width="auto"/>
+    {{ endif }}
+</div>
+
+
+{{ if session.config.order != 'mobility_first' }}
+<p><b>Second way: </b>Allocate your Action Points to <b>your personal account.</b><br/>
+There is a <b>{{ if session.config.mobility == 'low' }}10% {{ else }} 40% {{ endif }}probability</b> that this round is a
+    <b>moving round.</b><br/>
+If this is a moving round, the <b>two low-income members who allocate the most Action Points to their personal
+    account will move to the high-income group.</b></p>
+{{ endif }}
+
+<p><b>Third way:</b> Exchange your Action Points for money. <b>For each Action Point you exchange, you earn £{{ session.config.ap_to_money_cu }}.</b></p>
+
+<div style="border: 1px solid black; padding: 20px; margin-bottom: 20px;">
+    {{formfields}}
+</div>
+
+{{ next_button }}
+
+{{ endblock }}
+
+

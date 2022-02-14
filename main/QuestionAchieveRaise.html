@@ -1,0 +1,59 @@
+{{ block title }}
+    Please Answer the Following Question
+{{ endblock }}
+
+{{ block content }}
+
+{{extends "_static/main/slider_style.html"}}
+{{extends "_static/global/timer_display_setup.html"}}
+
+<p>
+    To what extent, low-income members can <b>collectively achieve a higher income</b> for their group through
+    <b>income redistribution?</b>
+</p>
+
+<style id="style-slider"></style>
+
+<div class="slider-container">
+    <span class="limit-values">Not at all (1)</span>
+  <input type="range" min="1" max="7" class="slider" id="slider_question"
+         name="question_achieve_raise">
+   <span class="limit-values">Very much (7)</span>
+</div>
+    <p style="text-align: center; font-weight: bold">Your answer: <span id="value"></span></p>
+
+<p><button class="otree-btn-next btn btn-primary" id="next-button">Next</button></p>
+
+{{ block scripts }}
+<script>
+        const slider = document.getElementById("slider_question");
+        const output = document.getElementById("value");
+        let nextButton = document.querySelector("#next-button");
+        let style = document.querySelector('#style-slider');
+        output.innerHTML = 'Awaiting input...'; // Display the default slider value
+        nextButton.disabled = true;
+
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function () {
+            setData(this.value);
+            nextButton.disabled = false;
+        }
+
+        function setData(x) {
+            output.innerHTML = x;
+            style.innerHTML = "" +
+                ".slider::-webkit-slider-thumb {" +
+                "visibility: visible !important" +
+                "} " +
+                ".slider::-moz-range-thumb {" +
+                "visibility: visible !important" +
+                "}";
+        }
+</script>
+{{ endblock }}
+
+
+{{ endblock }}
+
+
