@@ -15,7 +15,10 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     NUM_OF_TABLES = 50
-    TASK_THRESHOLD = 5
+    # Dev threshold
+    TASK_THRESHOLD = 0
+    # Real threshold
+    # TASK_THRESHOLD = 5
     COMPREHENSION_QUESTION_BONUS = 0.10
 
     with open('tables.csv', encoding='utf-8-sig') as table_file:
@@ -172,7 +175,7 @@ class IncomeProductionPhase(Page):
 
 
 class PracticeRoundIntro(Page):
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -184,7 +187,8 @@ class PracticeRoundIntro(Page):
 
 
 class PracticeRound(Page):
-    timeout_seconds = 30
+    # timeout_seconds = 30
+    timeout_seconds = 5
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -222,7 +226,8 @@ class RealTaskIntro(Page):
 
 
 class RealTask(Page):
-    timeout_seconds = 120
+    # timeout_seconds = 120
+    timeout_seconds = 5
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -253,7 +258,7 @@ class RealTask(Page):
 
 
 class TaskResults(Page):
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -269,7 +274,7 @@ class TwoGroups(Page):
 
 
 class GroupingResults(Page):
-    timeout_seconds = 30
+    timeout_seconds = 60
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
