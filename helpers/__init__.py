@@ -123,7 +123,7 @@ def adjust_payrates(subsession):
 
 
 def switch_groups(subsession):
-    players = subsession.get_players()
+    players = subsession.get_groups()[0].get_players()
     players.sort(key=lambda e: e.personal_account_ap)
     players[-1].has_switched = True
     players[-2].has_switched = True
