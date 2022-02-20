@@ -68,7 +68,7 @@ def set_initial_group_matrix(subsession, waiting_players, redundant_players):
     ])
 
 
-def set_groups(subsession):
+def set_groups(subsession, C):
     waiting_players = list()
     for player in filter(lambda p: p.participant.has_reached_main is True, subsession.get_players()):
         if len(waiting_players) < C.PLAYERS_PER_GROUP:

@@ -101,7 +101,7 @@ class InitialWaitPage(WaitPage):
 
     @staticmethod
     def after_all_players_arrive(subsession):
-        helpers.set_groups(subsession)
+        helpers.set_groups(subsession, C)
 
     @staticmethod
     def app_after_this_page(player: Player, upcoming_apps):
