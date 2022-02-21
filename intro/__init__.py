@@ -318,18 +318,6 @@ class ActionPoints(Page):
         return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
-class TenIndependentRounds(Page):
-    timeout_seconds = 180
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    @staticmethod
-    def app_after_this_page(player: Player, upcoming_apps):
-        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
-
-
 class ApUsageExample(Page):
     timeout_seconds = 120
 
@@ -342,8 +330,20 @@ class ApUsageExample(Page):
         return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
+class TenIndependentRounds(Page):
+    timeout_seconds = 180
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
 class RedistributingIncomeFirst(Page):
-    timeout_seconds = 120
+    timeout_seconds = 180
 
     @staticmethod
     def is_displayed(player: Player):
@@ -391,7 +391,7 @@ class MovingGroupFirst(Page):
 
 
 class RedistributingIncomeSecond(Page):
-    timeout_seconds = 120
+    timeout_seconds = 180
 
     @staticmethod
     def is_displayed(player: Player):
@@ -513,7 +513,7 @@ class QuestionMovingRoundResult(Page):
 
 page_sequence = [Introduction, Introduction2, InformedConsent, IncomeProductionPhase, PracticeRoundIntro, PracticeRound,
                  PracticeRoundResults, RealTaskIntro, RealTask, TaskResults, TwoGroups, GroupingResults, ActionPoints,
-                 TenIndependentRounds, ApUsageExample, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst,
+                 ApUsageExample, TenIndependentRounds, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst,
                  RedistributingIncomeSecond, ExchangeApForMoney, QuestionFinalIncome, QuestionFinalIncomeResult,
                  QuestionMovingRound, QuestionMovingRoundResult]
 
