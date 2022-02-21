@@ -1,13 +1,51 @@
+{{ block styles }}
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+{{ endblock }}
+{{ block scripts }}
+<script>
+    let timeLeft = 30;
+    const timerId = setInterval(countdown, 1000);
+    const firstMessage = document.getElementById('message-1');
+    const secondMessage = document.getElementById('message-2');
+    const button = document.getElementById('button');
+
+
+    function countdown() {
+      if (timeLeft === -1) {
+        clearTimeout(timerId);
+        firstMessage.classList.replace('seen', 'hidden');
+        secondMessage.classList.replace('hidden', 'seen');
+        button.classList.replace('hidden', 'seen');
+      } else {
+        timeLeft--;
+      }
+    }
+</script>
+{{ endblock }}
 {{ block content }}
 
 {{extends "_static/global/timer_display_setup.html"}}
 
 <div style="text-align: justify">
-    <p><b>You</b> were randomly assigned to the <b>low-income group.</b></p>
-    <p><b>Low-income members receive £{{ session.config.low_income }} as income.</b></p>
-    <p><b>High-income members receive £{{ session.config.high_income }} as income.</b></p>
+    <div id="message-1" class="seen">
+        <p>
+            Now, <b>the computer will randomly assign</b> you and the other seven participants to either the
+            <b>low-income</b> or the <b>high-income group.</b>
+        </p>
+        <p>Please wait...</p>
+    </div>
+    <div id="message-2" class="hidden">
+        <p><b>You</b> were randomly assigned to the <b>low-income group.</b></p>
+        <p><b>Low-income members receive £{{ session.config.low_income }} as income.</b></p>
+        <p><b>High-income members receive £{{ session.config.high_income }} as income.</b></p>
+    </div>
+
 </div>
 
-{{ next_button }}
+<p><button class="otree-btn-next btn btn-primary hidden" id="button">Next</button></p>
 
 {{ endblock }}

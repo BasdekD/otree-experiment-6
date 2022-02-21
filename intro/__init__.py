@@ -283,11 +283,19 @@ class TaskResults(Page):
 
 
 class TwoGroups(Page):
-    timeout_seconds = 10
+    timeout_seconds = 120
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
 class GroupingResults(Page):
-    timeout_seconds = 60
+    timeout_seconds = 90
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
