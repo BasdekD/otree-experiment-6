@@ -116,7 +116,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect
     )
 
-    def get_practice_round_results(self):
+    def get_task_results(self, correct_answers):
         submitted_answers = [self.table_0, self.table_1, self.table_2, self.table_3, self.table_4, self.table_5,
                              self.table_6, self.table_7, self.table_8, self.table_9, self.table_10, self.table_11,
                              self.table_12, self.table_13, self.table_14, self.table_15, self.table_16, self.table_17,
@@ -129,8 +129,8 @@ class Player(BasePlayer):
                              ]
         self.correct_counter = 0
         self.incorrect_counter = 0
-        for i in range(len(self.session.vars['answers_real_task'])):
-            if submitted_answers[i] == self.session.vars['answers_real_task'][i]:
+        for i in range(len(correct_answers)):
+            if submitted_answers[i] == correct_answers[i]:
                 self.correct_counter += 1
             else:
                 self.incorrect_counter += 1
@@ -187,11 +187,12 @@ class PracticeRoundIntro(Page):
 
 
 class PracticeRound(Page):
-    # timeout_seconds = 30
-    timeout_seconds = 5
+    timeout_seconds = 30
+    # timeout_seconds = 5
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
+        player.get_task_results(player.session.vars['answers_practice'])
         helpers.dropout_handler_before_next_page(player, timeout_happened)
 
     @staticmethod
@@ -213,6 +214,18 @@ class PracticeRound(Page):
         )
 
 
+class PracticeRoundResults(Page):
+    timeout_seconds = 60
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def app_after_this_page(player: Player, upcoming_apps):
+        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
+
+
 class RealTaskIntro(Page):
     timeout_seconds = 120
 
@@ -226,12 +239,12 @@ class RealTaskIntro(Page):
 
 
 class RealTask(Page):
-    # timeout_seconds = 120
-    timeout_seconds = 5
+    timeout_seconds = 30
+    # timeout_seconds = 5
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
-        player.get_practice_round_results()
+        player.get_task_results(player.session.vars['answers_real_task'])
         if player.correct_counter < C.TASK_THRESHOLD:
             player.participant.exceeded_task_threshold = False
             player.participant.solved_tables_for_ending_module = player.correct_counter
@@ -491,8 +504,8 @@ class QuestionMovingRoundResult(Page):
 
 
 page_sequence = [Introduction, Introduction2, InformedConsent, IncomeProductionPhase, PracticeRoundIntro, PracticeRound,
-                 RealTaskIntro, RealTask, TaskResults, TwoGroups, GroupingResults, ActionPoints, TenIndependentRounds,
-                 ApUsageExample, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst,
+                 PracticeRoundResults, RealTaskIntro, RealTask, TaskResults, TwoGroups, GroupingResults, ActionPoints,
+                 TenIndependentRounds, ApUsageExample, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst,
                  RedistributingIncomeSecond, ExchangeApForMoney, QuestionFinalIncome, QuestionFinalIncomeResult,
                  QuestionMovingRound, QuestionMovingRoundResult]
 
