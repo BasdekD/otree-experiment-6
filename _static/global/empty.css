@@ -1,0 +1,12 @@
+.mobility {
+    color: red;
+    font-size: large
+}
+
+.input-wrapper {
+    display: flex;
+}
+
+.flex-label {
+    margin-right: 1em;
+}

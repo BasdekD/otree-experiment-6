@@ -78,19 +78,29 @@ def set_groups(subsession, C):
 
 
 # Income handling based on contributions
-def calculate_total_public_pool(subsession):
+def set_contributions(subsession):
     total_public_pool_ap = 0
+    total_personal_ap = 0
+    total_exchange_ap = 0
     dropouts = []
     for player in subsession.get_groups()[0].get_players():
         if not player.timeout_on_contribution:
             total_public_pool_ap += player.public_pool_ap
+            total_personal_ap += player.personal_account_ap
+            total_exchange_ap += player.exchange_ap
         else:
             dropouts.append(player)
     non_dropout_number = len(subsession.get_players()) - len(dropouts)
     if non_dropout_number == 0:
         return 0
-    for _ in dropouts:
-        total_public_pool_ap += int(total_public_pool_ap / non_dropout_number)
+    mean_public_pool = int(total_public_pool_ap / non_dropout_number)
+    mean_personal_ap = int(total_personal_ap / non_dropout_number)
+    for player in dropouts:
+        player.public_pool_ap = mean_public_pool
+        player.personal_account_ap = mean_personal_ap
+        player.exchange_ap = \
+            subsession.session.config['initial_action_points'] - player.public_pool_ap - player.personal_account_ap
+        total_public_pool_ap += player.public_pool_ap
     return total_public_pool_ap
 
 
@@ -101,7 +111,8 @@ def convert_exchange_ap_to_income(subsession):
 
 
 def adjust_payrates(subsession):
-    total_public_pool_ap = calculate_total_public_pool(subsession)
+    total_public_pool_ap = set_contributions(subsession)
+    logging.info("Round {}, total public pool {}".format(subsession.round_number, total_public_pool_ap))
     if subsession.session.config['efficacy'] == 'high':
         if total_public_pool_ap <= 11:
             pass

@@ -35,7 +35,6 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     public_pool_ap = models.IntegerField(
-        label="Action points you want to contribute to the public pool",
         max=C.MAX_AP,
         min=0
     )
@@ -43,13 +42,11 @@ class Player(BasePlayer):
     # The action points that the player decided to keep in order to increase his chances for a positive outcome in case
     # the current round is a switching round (positive = orange goes to blue, blue stays blue)
     personal_account_ap = models.IntegerField(
-        label="Action Points you want to allocate to your personal account",
         max=C.MAX_AP,
         min=0
     )
 
     exchange_ap = models.IntegerField(
-        label="Action Points you want to exchange for money",
         max=C.MAX_AP,
         min=0
     )
@@ -193,7 +190,7 @@ class FeedbackExchange(Page):
 class QuestionFairUnfair(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
+        return helpers.get_dropout_timeout(player, 90)
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -209,7 +206,7 @@ class QuestionFairUnfair(Page):
 class QuestionSwitchingLikeliness(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
+        return helpers.get_dropout_timeout(player, 90)
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -241,7 +238,7 @@ class QuestionAchieveRaise(Page):
 class QuestionActionPointsEstimation(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
+        return helpers.get_dropout_timeout(player, 90)
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -258,7 +255,7 @@ class QuestionActionPointsEstimation(Page):
 class QuestionIdentifyWithGroup(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
+        return helpers.get_dropout_timeout(player, 90)
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -275,7 +272,7 @@ class QuestionIdentifyWithGroup(Page):
 class QuestionCommonGoals(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
+        return helpers.get_dropout_timeout(player, 90)
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
@@ -290,10 +287,6 @@ class QuestionCommonGoals(Page):
 
 
 class QuestionGeneralComment(Page):
-    @staticmethod
-    def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 180)
-
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         helpers.dropout_handler_before_next_page(player, timeout_happened)
