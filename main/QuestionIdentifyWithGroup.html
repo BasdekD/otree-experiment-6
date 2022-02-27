@@ -2,22 +2,24 @@
     Please Answer the Following Question
 {{ endblock }}
 
-{{ block content }}
-
-<p>
-    To what extent do you identify with other low-income members?
-<p>
-
+{{ block styles }}
 <style>
   td {
     width: 90px;
   }
 </style>
+{{ endblock }}
 
 {{ formfield_errors 'question_identify_with_group' }}
 {{extends "_static/global/error_message.html"}}
 {{extends "_static/global/timer_display_setup.html"}}
 
+
+{{ block content }}
+
+<p>
+    To what extent do you identify with other low-income members?
+<p>
 
 <div style="text-align: justify; margin-bottom: 30px;">
   <table style="text-align: center">

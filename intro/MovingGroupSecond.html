@@ -6,15 +6,15 @@
 {{ block content }}
 
 {{extends "_static/global/timer_display_setup.html"}}
+<link rel="stylesheet" href="{{ static 'global/empty.css' }}" />
 
 <div style="text-align: justify">
     <p>There is a <b>
-        <span style="color: red; font-size: large;">
         {{ if session.config.mobility == 'low' }}
             10%
         {{ else }}
             40%
-        {{ endif }}</span>
+        {{ endif }}
         probability that each round is a <u>moving round.</u></b></p>
     <p>
         In a moving round, the <b>two, out of the four, low-income members</b> who allocated the <b>most Action Points to

@@ -5,12 +5,13 @@
 
 {{extends "_static/global/timer_display_setup.html"}}
 
+<link rel="stylesheet" href="{{ static 'global/empty.css' }}" />
 
 <p>Please decide <b>how to use your 10 Action Points</b> in this round.</p>
 
 {{ if session.config.order == 'mobility_first' }}
 <p><b>First way: </b>Allocate your Action Points to <b>your personal account.</b><br/>
-There is a <b>{{ if session.config.mobility == 'low' }}10% {{ else }} 40% {{ endif }}probability</b> that this round is a
+There is a <b><span class="mobility"> {{ if session.config.mobility == 'low' }}10% {{ else }} 40% {{ endif }} </span>probability</b> that this round is a
     <b>moving round.</b><br/>
 If this is a moving round, the <b>two low-income members who allocate the most Action Points to their personal
     account will move to the high-income group.</b></p>
@@ -40,9 +41,38 @@ If this is a moving round, the <b>two low-income members who allocate the most A
 <p><b>Third way:</b> Exchange your Action Points for money. <b>For each Action Point you exchange, you earn £{{ session.config.ap_to_money_cu }}.</b></p>
 
 <div style="border: 1px solid black; padding: 20px; margin-bottom: 20px;">
-    {{formfields}}
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <label class="flex-label" for="1_1">Action points you want to <b>contribute to the public pool</b></label>
+                </td>
+                <td>
+                    <input class="form-control" type="number" id="1_1" name="public_pool_ap">
+                    {{ formfield_errors 'public_pool_ap' }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="flex-label" for="1_2">Action Points you want to <b>allocate to your personal account</b></label>
+                </td>
+                <td>
+                     <input class="form-control" type="number" id="1_2" name="personal_account_ap">
+                    {{ formfield_errors 'personal_account_ap' }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="flex-label" for="1_3">Action Points you want to <b>exchange for money</b></label>
+                </td>
+                <td>
+                    <input class="form-control" type="number" id="1_3" name="exchange_ap">
+                    {{ formfield_errors 'exchange_ap' }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-
 {{ next_button }}
 
 {{ endblock }}

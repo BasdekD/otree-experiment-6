@@ -1,59 +1,62 @@
 {{ block title }}
     Please Answer the Following Question
 {{ endblock }}
+{{ block styles }}
+<style>
+  td {
+    width: 90px;
+  }
+</style>
+{{ endblock }}
+
+{{ formfield_errors 'question_achieve_raise' }}
+{{extends "_static/global/error_message.html"}}
+{{extends "_static/global/timer_display_setup.html"}}
 
 {{ block content }}
-
-{{extends "_static/main/slider_style.html"}}
-{{extends "_static/global/timer_display_setup.html"}}
 
 <p>
     To what extent, low-income members can <b>collectively achieve a higher income</b> for their group through
     <b>income redistribution?</b>
 </p>
 
-<style id="style-slider"></style>
+<div style="text-align: justify; margin-bottom: 30px;">
+  <table style="text-align: center">
+    <tbody>
+    <tr>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+      </tr>
 
-<div class="slider-container">
-    <span class="limit-values">Not at all (1)</span>
-  <input type="range" min="1" max="7" class="slider" id="slider_question"
-         name="question_achieve_raise">
-   <span class="limit-values">Very much (7)</span>
+      <tr>
+        <td><input class="form-check-input" type="radio" id="1_1" name="question_achieve_raise" value="1"></td>
+        <td><input class="form-check-input" type="radio" id="1_2" name="question_achieve_raise" value="2"></td>
+        <td><input class="form-check-input" type="radio" id="1_3" name="question_achieve_raise" value="3"></td>
+        <td><input class="form-check-input" type="radio" id="1_4" name="question_achieve_raise" value="4"></td>
+        <td><input class="form-check-input" type="radio" id="1_5" name="question_achieve_raise" value="5"></td>
+        <td><input class="form-check-input" type="radio" id="1_6" name="question_achieve_raise" value="6"></td>
+        <td><input class="form-check-input" type="radio" id="1_7" name="question_achieve_raise" value="7"></td>
+      </tr>
+      <tr>
+        <td><label for="1_1">Not at all</label></td>
+        <td><label for="1_2"></label></td>
+        <td><label for="1_3"></label></td>
+        <td><label for="1_4"></label></td>
+        <td><label for="1_5"></label></td>
+        <td><label for="1_6"></label></td>
+        <td><label for="1_7">Very much</label></td>
+      </tr>
+
+    </tbody>
+  </table>
 </div>
-    <p style="text-align: center; font-weight: bold">Your answer: <span id="value"></span></p>
 
-<p><button class="otree-btn-next btn btn-primary" id="next-button">Next</button></p>
-
-{{ block scripts }}
-<script>
-        const slider = document.getElementById("slider_question");
-        const output = document.getElementById("value");
-        let nextButton = document.querySelector("#next-button");
-        let style = document.querySelector('#style-slider');
-        output.innerHTML = 'Awaiting input...'; // Display the default slider value
-        nextButton.disabled = true;
-
-
-        // Update the current slider value (each time you drag the slider handle)
-        slider.oninput = function () {
-            setData(this.value);
-            nextButton.disabled = false;
-        }
-
-        function setData(x) {
-            output.innerHTML = x;
-            style.innerHTML = "" +
-                ".slider::-webkit-slider-thumb {" +
-                "visibility: visible !important" +
-                "} " +
-                ".slider::-moz-range-thumb {" +
-                "visibility: visible !important" +
-                "}";
-        }
-</script>
-{{ endblock }}
-
-
+{{ next_button }}
 {{ endblock }}
 
 
