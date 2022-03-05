@@ -295,7 +295,7 @@ class TwoGroups(Page):
 
 
 class GroupingResults(Page):
-    timeout_seconds = 90
+    timeout_seconds = 70
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
