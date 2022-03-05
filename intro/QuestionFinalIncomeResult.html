@@ -10,7 +10,9 @@
   </div>
 {{ else }}
   <p style="margin-bottom: 40px;"><b>Your answer is wrong.</b><br/>
-      As you can see below, the correct answer is that the final income of the low-income group is {{ correct_answer }}£.</p>
+      As you can see below, the correct answer is that the final income of the low-income group is {{ correct_answer }}£
+      because the total contributions to the public pool are more than 12 and less than 23 Action Points.
+  </p>
 
     <div style="text-align: center; margin-bottom: 20px;">
     {{ if session.config.efficacy == 'high' }}
