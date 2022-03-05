@@ -11,7 +11,7 @@
 
 {{ if session.config.order == 'mobility_first' }}
 <p><b>First way: </b>Allocate your Action Points to <b>your personal account.</b><br/>
-There is a <b><span class="mobility"> {{ if session.config.mobility == 'low' }}10% {{ else }} 40% {{ endif }} </span>probability</b> that this round is a
+There is a <b><span class="mobility"> {{ if session.config.mobility == 'low' }}10% {{ else }} 50% {{ endif }} </span>probability</b> that this round is a
     <b>moving round.</b><br/>
 If this is a moving round, the <b>two low-income members who allocate the most Action Points to their personal
     account will move to the high-income group.</b></p>
@@ -32,7 +32,7 @@ If this is a moving round, the <b>two low-income members who allocate the most A
 
 {{ if session.config.order != 'mobility_first' }}
 <p><b>Second way: </b>Allocate your Action Points to <b>your personal account.</b><br/>
-There is a <b>{{ if session.config.mobility == 'low' }}10% {{ else }} 40% {{ endif }}probability</b> that this round is a
+There is a <b>{{ if session.config.mobility == 'low' }}10% {{ else }} 50% {{ endif }}probability</b> that this round is a
     <b>moving round.</b><br/>
 If this is a moving round, the <b>two low-income members who allocate the most Action Points to their personal
     account will move to the high-income group.</b></p>
