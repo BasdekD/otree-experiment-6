@@ -35,8 +35,9 @@ SESSION_CONFIG_DEFAULTS = dict(
     order='mobility_first',
     efficacy='high',
     mobility='low',
-    prolific_completion_url="https://prolific.co/",
-    doc=""
+    prolific_completion_url="https://app.prolific.co/submissions/complete?cc=7F39861F",
+    doc="<p><b>Study url:</b> After the given url add: ?participant_label"
+        "={{%PROLIFIC_PID%}}&STUDY_ID={{%STUDY_ID%}}&SESSION_ID={{%SESSION_ID%}}"
 )
 
 ROOMS = [
