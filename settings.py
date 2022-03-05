@@ -39,6 +39,25 @@ SESSION_CONFIG_DEFAULTS = dict(
     doc=""
 )
 
+ROOMS = [
+    dict(
+        name='low_mobility_high_efficacy',
+        display_name='Room 1: low mobility high efficacy'
+    ),
+    dict(
+        name='low_mobility_low_efficacy',
+        display_name='Room 2: low mobility low efficacy'
+    ),
+    dict(
+        name='high_mobility_high_efficacy',
+        display_name='Room 3: high mobility high efficacy'
+    ),
+    dict(
+        name='high_mobility_low_efficacy',
+        display_name='Room 4: high mobility low efficacy'
+    ),
+]
+
 PARTICIPANT_FIELDS = ['is_dropout', 'exceeded_task_threshold', 'solved_tables_for_ending_module',
                       'has_restate_consent', 'is_overbooked', 'has_reached_main']
 SESSION_FIELDS = ['prolific_completion_url']
