@@ -288,6 +288,10 @@ class QuestionCommonGoals(Page):
 
 class QuestionGeneralComment(Page):
     @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 300)
+
+    @staticmethod
     def before_next_page(player: Player, timeout_happened):
         helpers.dropout_handler_before_next_page(player, timeout_happened)
 
