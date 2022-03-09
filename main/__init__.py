@@ -154,7 +154,7 @@ class ContributionHandling(WaitPage):
         # Exchange ap for money and update player's payoff
         helpers.convert_exchange_ap_to_income(subsession)
         # Calculate public ap and adjust payrates
-        helpers.adjust_payrates(subsession)
+        helpers.adjust_payrates(subsession, C)
         # Conduct Switching
         if subsession.round_number in subsession.session.vars['switching_rounds']:
             helpers.switch_groups(subsession)
