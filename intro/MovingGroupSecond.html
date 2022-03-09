@@ -9,12 +9,12 @@
 <link rel="stylesheet" href="{{ static 'global/empty.css' }}" />
 
 <div style="text-align: justify">
-    <p>There is a <b>
+    <p>There is a <b><span class="mobility">
         {{ if session.config.mobility == 'low' }}
             10%
         {{ else }}
             50%
-        {{ endif }}
+        {{ endif }}</span>
         probability that each round is a <u>moving round.</u></b></p>
     <p>
         In a moving round, the <b>two, out of the four, low-income members</b> who allocated the <b>most Action Points to
