@@ -60,8 +60,6 @@ def get_redundant_players(subsession, waiting_players):
 
 
 def set_initial_group_matrix(subsession, waiting_players, redundant_players):
-    import random
-    random.shuffle(waiting_players)
     subsession.set_group_matrix([
         [player.id_in_subsession for player in waiting_players],
         [player.id_in_subsession for player in redundant_players]

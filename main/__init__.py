@@ -106,6 +106,18 @@ class InitialWaitPage(WaitPage):
             return upcoming_apps[-1]
 
 
+class SetGroupWaitPage(WaitPage):
+    wait_for_all_groups = True
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number != 1
+
+    @staticmethod
+    def after_all_players_arrive(subsession):
+        subsession.group_like_round(1)
+
+
 class IntroScreenRound(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
@@ -335,7 +347,7 @@ class InformedConsent(Page):
     form_fields = ['informed_consent']
 
 
-page_sequence = [InitialWaitPage, IntroScreenRound, ContributionHandling, FeedbackIncomeRedistribution,
+page_sequence = [InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, FeedbackIncomeRedistribution,
                  FeedbackSwitching, FeedbackExchange, QuestionFairUnfair, QuestionSwitchingLikeliness,
                  QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionIdentifyWithGroup, QuestionCommonGoals,
                  QuestionGeneralComment, Debriefing, InformedConsent]
