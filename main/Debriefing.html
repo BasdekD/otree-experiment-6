@@ -23,15 +23,16 @@
     <p>
         {{ if session.config.mobility == 'low' }}
             You were informed that the probability of moving to the high-income group is 10% <b>in each round.</b>
-            However, in reality, it was predetermined that there is one moving round and the moving round was
-            always the seventh round.
+            However, in reality, it was predetermined that there are two moving rounds and the moving rounds were
+            always the last two rounds.
         {{ else }}
             You were informed that the probability of moving to the high-income group is 50% <b>in each round.</b>
-            However, in reality, it was predetermined that there are five moving rounds and the moving rounds
-            were always the last five rounds.
+            However, in reality, it was predetermined that there are six moving rounds and the moving rounds
+            were always the last six rounds.
         {{ endif }}
-        The reason for this false information is that we were interested in how you would respond in the first six
-        rounds after repeatedly receiving feedback of not moving to the high-income group.
+        The reason for this false information is that we were interested in how you would respond in the first
+        {{ if session.config.mobility == 'low' }} ten {{ else }} six {{ endif }} rounds after repeatedly receiving
+        feedback of not moving to the high-income group.
     </p>
     <p>
         Second, you were informed that you were randomly assigned to either a low-income or high-income group.
