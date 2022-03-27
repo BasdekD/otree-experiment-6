@@ -23,10 +23,7 @@ def creating_session(subsession: Subsession):
             player.participant.is_dropout = False
             player.participant.has_restate_consent = False
             player.participant.is_overbooked = False
-    if subsession.session.config['mobility'] == 'high':
-        subsession.session.vars['switching_rounds'] = [7, 8, 9, 10]
-    else:
-        subsession.session.vars['switching_rounds'] = [7]
+        subsession.session.vars['switching_rounds'] = [11, 12]
 
 
 class Group(BaseGroup):
