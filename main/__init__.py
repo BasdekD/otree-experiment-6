@@ -207,7 +207,7 @@ class QuestionFairUnfair(Page):
 
     @staticmethod
     def is_displayed(player):
-        return player.round_number == 1 or player.round_number == 6
+        return player.round_number == 1 or player.round_number == 10
     form_model = 'player'
     form_fields = ['question_fair_unfair']
 
@@ -223,7 +223,7 @@ class QuestionSwitchingLikeliness(Page):
 
     @staticmethod
     def is_displayed(player):
-        return player.round_number == 1 or player.round_number == 6
+        return player.round_number == 1 or player.round_number == 10
     form_model = 'player'
     form_fields = ['question_switching_likeliness']
 
@@ -239,7 +239,7 @@ class QuestionAchieveRaise(Page):
 
     @staticmethod
     def is_displayed(player):
-        return player.round_number == 1 or player.round_number == 6
+        return player.round_number == 1 or player.round_number == 10
     form_model = 'player'
     form_fields = ['question_achieve_raise']
 
@@ -255,7 +255,7 @@ class QuestionActionPointsEstimation(Page):
 
     @staticmethod
     def is_displayed(player):
-        return player.round_number == 1 or player.round_number == 6
+        return player.round_number == 1 or player.round_number == 10
 
     form_model = 'player'
     form_fields = ['question_action_points_estimation']
@@ -272,7 +272,7 @@ class QuestionIdentifyWithGroup(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 6
+        return player.round_number == 10
 
     form_model = 'player'
     form_fields = ['question_identify_with_group']
@@ -289,7 +289,7 @@ class QuestionCommonGoals(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 6
+        return player.round_number == 10
 
     form_model = 'player'
     form_fields = ['question_common_goals']
@@ -344,7 +344,7 @@ class InformedConsent(Page):
     form_fields = ['informed_consent']
 
 
-page_sequence = [InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, FeedbackIncomeRedistribution,
-                 FeedbackSwitching, FeedbackExchange, QuestionFairUnfair, QuestionSwitchingLikeliness,
-                 QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionIdentifyWithGroup, QuestionCommonGoals,
-                 QuestionGeneralComment, Debriefing, InformedConsent]
+page_sequence = [InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, QuestionFairUnfair,
+                 QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation,
+                 QuestionIdentifyWithGroup, QuestionCommonGoals, FeedbackIncomeRedistribution, FeedbackSwitching,
+                 FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent]
