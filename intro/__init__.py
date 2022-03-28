@@ -143,7 +143,11 @@ class Player(BasePlayer):
 
 # PAGES
 class Introduction(Page):
-    pass
+    @staticmethod
+    def vars_for_template(player):
+        return dict(
+            compr_bonus=cu(player.session.config['compr_ques_bonus'])
+        )
 
 
 class Introduction2(Page):
