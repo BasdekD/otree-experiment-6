@@ -230,7 +230,7 @@ class PracticeRoundResults(Page):
 
 
 class RealTaskIntro(Page):
-    timeout_seconds = 120
+    timeout_seconds = 60
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
