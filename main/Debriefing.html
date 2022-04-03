@@ -22,11 +22,13 @@
     <p>However, <b>this study included two aspects of deception.</b></p>
     <p>
         {{ if session.config.mobility == 'low' }}
-            You were informed that the probability of moving to the high-income group is 10% <b>in each round.</b>
+            You were informed that according to participants in previous sessions the probability of moving to the
+            high-income group is 10% <b>in each round.</b>
             However, in reality, it was predetermined that there are two moving rounds and the moving rounds were
             always the last two rounds.
         {{ else }}
-            You were informed that the probability of moving to the high-income group is 50% <b>in each round.</b>
+            You were informed that according to participants in previous sessions the probability of moving to the
+            high-income group is 50% <b>in each round.</b>
             However, in reality, it was predetermined that there are six moving rounds and the moving rounds
             were always the last six rounds.
         {{ endif }}
