@@ -77,6 +77,17 @@ class Player(BasePlayer):
         widget=widgets.RadioSelectHorizontal
     )
 
+    question_politics = models.IntegerField(
+        choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        widget=widgets.RadioSelectHorizontal,
+        blank=True
+    )
+
+    question_mobility_probability = models.IntegerField(
+        choices=[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        widget=widgets.RadioSelectHorizontal
+    )
+
     question_general_comment = models.LongStringField(
         label="Before completing this study, please write any general comment you would like to make about"
               " this study in the box below: ",
@@ -298,6 +309,40 @@ class QuestionCommonGoals(Page):
     form_fields = ['question_common_goals']
 
 
+class QuestionPolitics(Page):
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 90)
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 10
+
+    form_model = 'player'
+    form_fields = ['question_politics']
+
+
+class QuestionMobilityProbability(Page):
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 90)
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 10
+
+    form_model = 'player'
+    form_fields = ['question_mobility_probability']
+
+
 class QuestionGeneralComment(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
@@ -349,5 +394,6 @@ class InformedConsent(Page):
 
 page_sequence = [InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, QuestionFairUnfair,
                  QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation,
-                 QuestionIdentifyWithGroup, QuestionCommonGoals, FeedbackIncomeRedistribution, FeedbackSwitching,
-                 FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent]
+                 QuestionIdentifyWithGroup, QuestionCommonGoals, QuestionPolitics, QuestionMobilityProbability,
+                 FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing,
+                 InformedConsent]

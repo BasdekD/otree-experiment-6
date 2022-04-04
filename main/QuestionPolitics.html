@@ -1,0 +1,60 @@
+{{ block title }}
+    Please Answer the Following Question
+{{ endblock }}
+
+{{ block styles }}
+<style>
+  td {
+    width: 90px;
+  }
+</style>
+{{ endblock }}
+
+{{ formfield_errors 'question_politics' }}
+{{extends "_static/global/error_message.html"}}
+{{extends "_static/global/timer_display_setup.html"}}
+
+{{ block content }}
+
+<p>
+    In politics people sometimes talk of “left” and “right”.  Where would you place yourself on a scale, where 0
+    means the left and 10 means the right?
+<p>
+
+<div style="text-align: justify; margin-bottom: 30px;">
+  <table style="text-align: center">
+    <tbody>
+      <tr>
+        <td><input class="form-check-input" type="radio" id="1_0" name="question_politics" value="0"></td>
+        <td><input class="form-check-input" type="radio" id="1_1" name="question_politics" value="1"></td>
+        <td><input class="form-check-input" type="radio" id="1_2" name="question_politics" value="2"></td>
+        <td><input class="form-check-input" type="radio" id="1_3" name="question_politics" value="3"></td>
+        <td><input class="form-check-input" type="radio" id="1_4" name="question_politics" value="4"></td>
+        <td><input class="form-check-input" type="radio" id="1_5" name="question_politics" value="5"></td>
+        <td><input class="form-check-input" type="radio" id="1_6" name="question_politics" value="6"></td>
+        <td><input class="form-check-input" type="radio" id="1_7" name="question_politics" value="7"></td>
+        <td><input class="form-check-input" type="radio" id="1_8" name="question_politics" value="8"></td>
+        <td><input class="form-check-input" type="radio" id="1_9" name="question_politics" value="9"></td>
+        <td><input class="form-check-input" type="radio" id="1_10" name="question_politics" value="10"></td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>
+{{ next_button }}
+
+{{ endblock }}
+
