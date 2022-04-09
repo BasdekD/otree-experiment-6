@@ -23,14 +23,14 @@
     <p>
         {{ if session.config.mobility == 'low' }}
             You were informed that according to participants in previous sessions the probability of moving to the
-            high-income group is 10% <b>in each round.</b>
-            However, in reality, it was predetermined that there are two moving rounds and the moving rounds were
-            always the last two rounds.
+            high-income group is 10% <b>in each round.</b> Indeed, some participants of previous sessions stated that
+            the probability is 10%. However, in reality, it was predetermined that there were two moving rounds
+            out of the twelve rounds and the moving rounds were always the last two rounds.
         {{ else }}
             You were informed that according to participants in previous sessions the probability of moving to the
-            high-income group is 50% <b>in each round.</b>
-            However, in reality, it was predetermined that there are six moving rounds and the moving rounds
-            were always the last six rounds.
+            high-income group is 50% <b>in each round.</b> Indeed, some participants of previous sessions stated that
+            the probability is 50%. However, in reality, it was predetermined that there were six moving rounds
+            out of the twelve rounds and the moving rounds were always the last six rounds.
         {{ endif }}
         The reason for this false information is that we were interested in how you would respond in the first
         {{ if session.config.mobility == 'low' }} ten {{ else }} six {{ endif }} rounds after repeatedly receiving
