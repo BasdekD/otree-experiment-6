@@ -264,23 +264,6 @@ class QuestionAchieveRaise(Page):
     form_fields = ['question_achieve_raise']
 
 
-class QuestionFairUnfairConditions(Page):
-    @staticmethod
-    def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 90)
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    @staticmethod
-    def is_displayed(player):
-        return player.round_number == 1 or player.round_number == 10
-    form_model = 'player'
-    form_fields = ['question_fair_unfair_conditions']
-
-
-
 class QuestionActionPointsEstimation(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
@@ -298,6 +281,22 @@ class QuestionActionPointsEstimation(Page):
     form_fields = ['question_action_points_estimation']
 
 
+class QuestionFairUnfairConditions(Page):
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 90)
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1 or player.round_number == 10
+    form_model = 'player'
+    form_fields = ['question_fair_unfair_conditions']
+
+
 class QuestionIdentifyWithGroup(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
@@ -309,7 +308,7 @@ class QuestionIdentifyWithGroup(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 10
+        return player.round_number == 1 or player.round_number == 10
 
     form_model = 'player'
     form_fields = ['question_identify_with_group']
@@ -416,5 +415,5 @@ class InformedConsent(Page):
 
 
 page_sequence = [
-      InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionFairUnfairConditions, QuestionActionPointsEstimation, QuestionIdentifyWithGroup, QuestionCommonGoals, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent
+      InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionCommonGoals, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent
     ]
