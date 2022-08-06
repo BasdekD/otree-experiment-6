@@ -1,0 +1,18 @@
+{{ block title }}
+    Group Message
+{{ endblock }}
+{{ block content }}
+
+{{extends "_static/global/timer_display_setup.html"}}
+
+<div style="text-align: justify;">
+    <p>
+        <b>In total, {{ message }} out of the four low-income members believe{{if message == 'one'}}s{{endif}} that as low-income members we should strive to achieve the best outcome for our group.</b>
+    </p>
+</div>
+
+    {{ next_button }}
+
+{{ endblock }}
+
+

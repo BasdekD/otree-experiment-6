@@ -1,0 +1,32 @@
+{{ block title }}
+    Group Message
+{{ endblock }}
+{{ block content }}
+
+{{ formfield_errors 'message_chosen' }}
+{{extends "_static/global/timer_display_setup.html"}}
+{{extends "_static/global/error_message.html"}}
+
+<div style="text-align: justify;">
+    <p>
+        You can now <b>send the following message to the other three low-income members.</b> If you do not want to send a message, then choose the "No message option".
+    </p>
+
+    <div style="margin-bottom: 20px">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="1_1" name="message_chosen" value="1">
+          <label for="1_1"><b>As low-income members, we should strive to achieve income redistribution by contributing to the public pool.</b></label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" id="1_2" name="message_chosen" value="2">
+          <label for="1_2"><b>No message</b></label>
+        </div>
+    </div>
+
+</div>
+
+    {{ next_button }}
+
+{{ endblock }}
+
+

@@ -34,6 +34,12 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+
+    message_chosen = models.IntegerField(
+        choices=[1, 2],
+        widget=widgets.RadioSelect
+    )
+
     public_pool_ap = models.IntegerField(
         max=C.MAX_AP,
         min=0
@@ -133,6 +139,38 @@ class SetGroupWaitPage(WaitPage):
     @staticmethod
     def after_all_players_arrive(subsession):
         subsession.group_like_round(1)
+
+
+class ChooseMessage(Page):
+
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 180)
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    form_model = 'player'
+    form_fields = ['message_chosen']
+
+class GatherMessages(WaitPage):
+    pass
+
+
+class ChooseMessageResults(Page):
+
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 60)
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def vars_for_template(player):
+        return helpers.count_messages(player)
 
 
 class IntroScreenRound(Page):
@@ -414,6 +452,5 @@ class InformedConsent(Page):
     form_fields = ['informed_consent']
 
 
-page_sequence = [
-      InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent
-    ]
+page_sequence = [InitialWaitPage, SetGroupWaitPage, ChooseMessage, GatherMessages, ChooseMessageResults, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent
+]

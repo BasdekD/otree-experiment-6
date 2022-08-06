@@ -40,6 +40,25 @@ def dropout_handler_app_after_this_page(player, upcoming_apps):
     else:
         pass
 
+def count_messages(player):
+    message_counter = 0
+    for player in player.subsession.get_groups()[0].get_players():
+        if player.message_chosen == 1:
+            message_counter += 1
+    if message_counter == 0:
+        number = "none"
+    elif message_counter == 1:
+        number = "one"
+    elif message_counter == 2:
+        number = "two"
+    elif message_counter == 3:
+        number = "three"
+    elif message_counter == 4:
+        number = "four"
+    return dict(
+        message = number,
+    )
+
 
 # Comprehension Question Handling
 def question_final_income_get_answer_index(player):
