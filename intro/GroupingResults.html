@@ -7,7 +7,7 @@
 {{ endblock }}
 {{ block scripts }}
 <script>
-    let timeLeft = 10;
+    let timeLeft = 15;
     const timerId = setInterval(countdown, 1000);
     const firstMessage = document.getElementById('message-1');
     const secondMessage = document.getElementById('message-2');
@@ -39,7 +39,7 @@
         <p>Please wait...</p>
     </div>
     <div id="message-2" class="hidden">
-        <p><b>You</b> were randomly assigned to the <b>low-income group.</b></p>
+        <p><b>You</b> were <b>randomly assigned</b> to the <b>low-income group.</b></p>
         <p><b>Low-income members receive £{{ session.config.low_income }} as income.</b></p>
         <p><b>High-income members receive £{{ session.config.high_income }} as income.</b></p>
     </div>

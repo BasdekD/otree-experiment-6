@@ -332,7 +332,7 @@ class ApUsageExample(Page):
         return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
-class TenIndependentRounds(Page):
+class TwelveIndependentRounds(Page):
     timeout_seconds = 180
 
     @staticmethod
