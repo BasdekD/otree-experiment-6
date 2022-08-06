@@ -84,6 +84,9 @@ class Player(BasePlayer):
         widget=widgets.RadioSelectHorizontal
     )
 
+    question_honesty = models.IntegerField()
+    question_message_usefulness = models.IntegerField()
+
     question_common_goals = models.IntegerField(
         choices=[1, 2, 3, 4, 5, 6, 7],
         widget=widgets.RadioSelectHorizontal
@@ -153,6 +156,7 @@ class ChooseMessage(Page):
 
     form_model = 'player'
     form_fields = ['message_chosen']
+
 
 class GatherMessages(WaitPage):
     pass
@@ -352,6 +356,40 @@ class QuestionIdentifyWithGroup(Page):
     form_fields = ['question_identify_with_group']
 
 
+class QuestionHonesty(Page):
+
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 60)
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 10
+    form_model = 'player'
+    form_fields = ['question_honesty']
+
+
+class QuestionMessageUsefulness(Page):
+
+    @staticmethod
+    def get_timeout_seconds(player: Player):
+        return helpers.get_dropout_timeout(player, 60)
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        helpers.dropout_handler_before_next_page(player, timeout_happened)
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 10
+    form_model = 'player'
+    form_fields = ['question_message_usefulness']
+
+
 class QuestionCommonGoals(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
@@ -452,5 +490,5 @@ class InformedConsent(Page):
     form_fields = ['informed_consent']
 
 
-page_sequence = [InitialWaitPage, SetGroupWaitPage, ChooseMessage, GatherMessages, ChooseMessageResults, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent
+page_sequence = [InitialWaitPage, SetGroupWaitPage, ChooseMessage, GatherMessages, ChooseMessageResults, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionHonesty, QuestionMessageUsefulness, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent
 ]
