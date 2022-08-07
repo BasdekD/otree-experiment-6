@@ -9,12 +9,14 @@
   </p>
 </div>
 {{ else }}
+<p>
+  <b>Your answer is wrong.</b>
+</p>
+{{ endif }}
 <p style="margin-bottom: 40px;">
-  <b>Your answer is wrong.</b><br />
   Since each round is independent, a low-income member will start each round as a member of the <b>low-income group
   irrespective of what happened in the previous round.</b> A low-income member has the chance to move to the high-income group in each round.
 </p>
-{{ endif }}
 {{ next_button }}
 
 {{ endblock }}
