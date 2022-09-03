@@ -159,7 +159,11 @@ class ChooseMessage(Page):
 
 
 class GatherMessages(WaitPage):
-    pass
+    wait_for_all_groups = True
+
+    @staticmethod
+    def after_all_players_arrive(subsession):
+        helpers.decide_messages(subsession)
 
 
 class ChooseMessageResults(Page):
