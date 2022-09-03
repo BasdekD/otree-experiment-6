@@ -24,6 +24,7 @@ SESSION_CONFIGS = [
 # e.g. self.session.config['participation_fee']
 
 SESSION_CONFIG_DEFAULTS = dict(
+    # use_browser_bots=True,
     real_world_currency_per_point=1.00,
     participation_fee=2.15,
     low_income=1,
