@@ -38,8 +38,6 @@ If this is a moving round, the <b>two low-income members who allocate the most A
 If this is a moving round, the <b>two low-income members who allocate the most Action Points to their personal account will move to the high-income group.</b></p>
 {{ endif }}
 
-<p><b>Third way:</b> You exchange your Action Points for money. <b>For each Action Point you exchange, you earn £{{ session.config.ap_to_money_cu }}.</b></p>
-
 <div style="border: 1px solid black; padding: 20px; margin-bottom: 20px;">
     <table>
         <tbody>
@@ -59,15 +57,6 @@ If this is a moving round, the <b>two low-income members who allocate the most A
                 <td>
                      <input class="form-control" type="number" id="1_2" name="personal_account_ap">
                     {{ formfield_errors 'personal_account_ap' }}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label class="flex-label" for="1_3">Action Points you want to <b>exchange for money</b></label>
-                </td>
-                <td>
-                    <input class="form-control" type="number" id="1_3" name="exchange_ap">
-                    {{ formfield_errors 'exchange_ap' }}
                 </td>
             </tr>
         </tbody>

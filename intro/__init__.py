@@ -417,24 +417,6 @@ class RedistributingIncomeSecond(Page):
         return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
 
 
-class ExchangeApForMoney(Page):
-    timeout_seconds = 60
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    @staticmethod
-    def app_after_this_page(player: Player, upcoming_apps):
-        return helpers.dropout_handler_app_after_this_page(player, upcoming_apps)
-
-    @staticmethod
-    def vars_for_template(player):
-        return dict(
-            example_1_cu=2 * player.session.config['ap_to_money_cu'],
-            example_2_cu=player.session.config['ap_to_money_cu'] * player.session.config['initial_action_points']
-        )
-
 class QuestionMobilityAcrossRounds(Page):
     timeout_seconds = 120
 
@@ -602,5 +584,5 @@ class QuestionMovingRoundResult(Page):
 
 page_sequence = [Introduction, Introduction2, InformedConsent, IncomeProductionPhase, PracticeRoundIntro, PracticeRound,
                  PracticeRoundResults, RealTaskIntro, RealTask, TaskResults, TwoGroups, GroupingResults, ActionPoints,
-                 ApUsageExample, TwelveIndependentRounds, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst, RedistributingIncomeSecond, ExchangeApForMoney, QuestionMobilityAcrossRounds, QuestionMobilityAcrossRoundsResult, QuestionIncomeAfterSwitching, QuestionIncomeAfterSwitchingResult, QuestionFinalIncome, QuestionFinalIncomeResult, QuestionMovingRound, QuestionMovingRoundResult]
+                 ApUsageExample, TwelveIndependentRounds, RedistributingIncomeFirst, MovingGroupSecond, MovingGroupFirst, RedistributingIncomeSecond, QuestionMobilityAcrossRounds, QuestionMobilityAcrossRoundsResult, QuestionIncomeAfterSwitching, QuestionIncomeAfterSwitchingResult, QuestionFinalIncome, QuestionFinalIncomeResult, QuestionMovingRound, QuestionMovingRoundResult]
 

@@ -29,7 +29,6 @@ SESSION_CONFIG_DEFAULTS = dict(
     participation_fee=2.15,
     low_income=1,
     high_income=5,
-    ap_to_money_cu=0.05,
     compr_ques_bonus=0.10,
     initial_action_points=10,
     max_cons_timeout_pages=2,

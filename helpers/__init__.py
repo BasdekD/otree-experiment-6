@@ -149,13 +149,6 @@ def set_contributions(subsession, C):
     return total_public_pool_ap
 
 
-def convert_exchange_ap_to_income(subsession):
-    for player in subsession.get_groups()[0].get_players():
-        logging.info(player.id_in_subsession)
-        player.payoff += cu(player.exchange_ap * subsession.session.config['ap_to_money_cu'])
-        logging.info('Exchange income: {}'.format(player.payoff))
-
-
 def adjust_payrates(subsession, C):
     total_public_pool_ap = set_contributions(subsession, C)
     logging.info("Round {}, total public pool {}".format(subsession.round_number, total_public_pool_ap))

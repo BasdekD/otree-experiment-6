@@ -52,10 +52,6 @@ class Player(BasePlayer):
         min=0
     )
 
-    exchange_ap = models.IntegerField(
-        max=C.MAX_AP,
-        min=0
-    )
     number_of_consecutive_timeout_pages = models.IntegerField(initial=0)
     timeout_on_contribution = models.BooleanField(initial=False)
     has_switched = models.BooleanField(initial=False)
@@ -198,15 +194,13 @@ class IntroScreenRound(Page):
             participant.is_dropout = True
 
     form_model = 'player'
-    form_fields = ['public_pool_ap', 'personal_account_ap', 'exchange_ap']
+    form_fields = ['public_pool_ap', 'personal_account_ap']
 
     @staticmethod
     def error_message(player, values):
         print('values is', values)
-        if values['public_pool_ap'] + values['personal_account_ap'] + values['exchange_ap'] != player.session.config['initial_action_points']:
-            return 'The number of contribution action points, the number of action points used for group switching ' \
-                   'and the number of action points exchanged for money, must sum up to your total number of action' \
-                   ' points (10).'
+        if values['public_pool_ap'] + values['personal_account_ap'] != player.session.config['initial_action_points']:
+            return 'The number of contribution action points, and the number of action points used for group switching, must sum up to your total number of action points (10).'
 
 
 class ContributionHandling(WaitPage):
@@ -214,8 +208,6 @@ class ContributionHandling(WaitPage):
 
     @staticmethod
     def after_all_players_arrive(subsession):
-        # Exchange ap for money and update player's payoff
-        helpers.convert_exchange_ap_to_income(subsession)
         # Calculate public ap and adjust payrates
         helpers.adjust_payrates(subsession, C)
         # Conduct Switching
@@ -244,22 +236,6 @@ class FeedbackSwitching(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-
-class FeedbackExchange(Page):
-    @staticmethod
-    def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    @staticmethod
-    def vars_for_template(player):
-        return dict(
-            money_from_exchange=cu(player.session.config['ap_to_money_cu'] * player.exchange_ap)
-        )
 
 
 class QuestionFairUnfairInequality(Page):
@@ -494,5 +470,5 @@ class InformedConsent(Page):
     form_fields = ['informed_consent']
 
 
-page_sequence = [InitialWaitPage, SetGroupWaitPage, ChooseMessage, GatherMessages, ChooseMessageResults, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionHonesty, QuestionMessageUsefulness, QuestionMessageConsistency, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, FeedbackExchange, QuestionGeneralComment, Debriefing, InformedConsent
+page_sequence = [InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, QuestionGeneralComment, Debriefing, InformedConsent
 ]
