@@ -39,54 +39,7 @@ def dropout_handler_app_after_this_page(player, upcoming_apps):
         return upcoming_apps[-1]
     else:
         pass
-
-def decide_messages(subsession):
-    real_player_messages = dict()
-    dropouts = list()
-    for player in subsession.get_groups()[0].get_players():
-        if player.participant.is_dropout:
-            dropouts.append(player)
-        else:
-            real_player_messages[player] = player.message_chosen
-    # If there there are 3 bots and 1 real player, the bots should copy the player's response
-    if len(real_player_messages) == 1:
-        for player in dropouts:
-            player.message_chosen = list(real_player_messages.values())[0]
-    # If there are 2 bots and 2 players and one real player has sent the message, one bot should also send the message and the other not
-    elif len(real_player_messages) == 2:
-        if 1 in list(real_player_messages.values()):
-            dropouts[0].message_chosen = 1
-            dropouts[1].message_chosen = 2
-        else:
-            dropouts[0].message_chosen = 2
-            dropouts[1].message_chosen = 2
-    # If there is only one bot, it should send the message if at least 2 out of the three real players have also sent it
-    elif len(real_player_messages) == 3:
-        if list(real_player_messages.values()).count(1) >= 2:
-            dropouts[0].message_chosen = 1
-        else:
-            dropouts[0].message_chosen = 2
     
-
-def count_messages(player):
-    message_counter = 0
-    for player in player.subsession.get_groups()[0].get_players():
-        if player.message_chosen == 1:
-            message_counter += 1
-    if message_counter == 0:
-        number = "none"
-    elif message_counter == 1:
-        number = "one"
-    elif message_counter == 2:
-        number = "two"
-    elif message_counter == 3:
-        number = "three"
-    elif message_counter == 4:
-        number = "four"
-    return dict(
-        message = number,
-    )
-
 
 # Comprehension Question Handling
 def question_final_income_get_answer_index(player):

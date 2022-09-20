@@ -35,11 +35,6 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 
-    message_chosen = models.IntegerField(
-        choices=[1, 2],
-        widget=widgets.RadioSelect
-    )
-
     public_pool_ap = models.IntegerField(
         max=C.MAX_AP,
         min=0
@@ -74,14 +69,11 @@ class Player(BasePlayer):
         widget=widgets.RadioSelectHorizontal
     )
 
-
-    question_message_consistency = models.IntegerField(
+    question_identify_with_group = models.IntegerField(
         choices=[1, 2, 3, 4, 5, 6, 7],
         widget=widgets.RadioSelectHorizontal
     )
 
-    question_honesty = models.IntegerField()
-    question_message_usefulness = models.IntegerField()
 
     question_common_goals = models.IntegerField(
         choices=[1, 2, 3, 4, 5, 6, 7],
@@ -138,43 +130,6 @@ class SetGroupWaitPage(WaitPage):
     @staticmethod
     def after_all_players_arrive(subsession):
         subsession.group_like_round(1)
-
-
-class ChooseMessage(Page):
-
-    @staticmethod
-    def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 180)
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    form_model = 'player'
-    form_fields = ['message_chosen']
-
-
-class GatherMessages(WaitPage):
-    wait_for_all_groups = True
-
-    @staticmethod
-    def after_all_players_arrive(subsession):
-        helpers.decide_messages(subsession)
-
-
-class ChooseMessageResults(Page):
-
-    @staticmethod
-    def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    @staticmethod
-    def vars_for_template(player):
-        return helpers.count_messages(player)
 
 
 class IntroScreenRound(Page):
@@ -319,41 +274,7 @@ class QuestionFairUnfairConditions(Page):
     form_fields = ['question_fair_unfair_conditions']
 
 
-class QuestionHonesty(Page):
-
-    @staticmethod
-    def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    @staticmethod
-    def is_displayed(player):
-        return player.round_number == 10
-    form_model = 'player'
-    form_fields = ['question_honesty']
-
-
-class QuestionMessageUsefulness(Page):
-
-    @staticmethod
-    def get_timeout_seconds(player: Player):
-        return helpers.get_dropout_timeout(player, 60)
-
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        helpers.dropout_handler_before_next_page(player, timeout_happened)
-
-    @staticmethod
-    def is_displayed(player):
-        return player.round_number == 10
-    form_model = 'player'
-    form_fields = ['question_message_usefulness']
-
-
-class QuestionMessageConsistency(Page):
+class QuestionIdentifyWithGroup(Page):
     @staticmethod
     def get_timeout_seconds(player: Player):
         return helpers.get_dropout_timeout(player, 90)
@@ -364,11 +285,11 @@ class QuestionMessageConsistency(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number == 10
+        return player.round_number == 1 or player.round_number == 10
 
     form_model = 'player'
-    form_fields = ['question_message_consistency']
-
+    form_fields = ['question_identify_with_group']
+    
 
 class QuestionCommonGoals(Page):
     @staticmethod
