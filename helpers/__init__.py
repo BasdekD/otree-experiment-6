@@ -78,26 +78,19 @@ def set_groups(subsession, C):
 # Income handling based on contributions
 def set_contributions(subsession, C):
     total_public_pool_ap = 0
-    total_personal_ap = 0
-    total_exchange_ap = 0
     dropouts = []
     for player in subsession.get_groups()[0].get_players():
         if not player.timeout_on_contribution:
             total_public_pool_ap += player.public_pool_ap
-            total_personal_ap += player.personal_account_ap
-            total_exchange_ap += player.exchange_ap
         else:
             dropouts.append(player)
     non_dropout_number = C.PLAYERS_PER_GROUP - len(dropouts)
     if non_dropout_number == 0:
         return 0
     mean_public_pool = int(total_public_pool_ap / non_dropout_number)
-    mean_personal_ap = int(total_personal_ap / non_dropout_number)
     for player in dropouts:
         player.public_pool_ap = mean_public_pool
-        player.personal_account_ap = mean_personal_ap
-        player.exchange_ap = \
-            subsession.session.config['initial_action_points'] - player.public_pool_ap - player.personal_account_ap
+        player.personal_account_ap = subsession.session.config['initial_action_points'] - player.public_pool_ap
         total_public_pool_ap += player.public_pool_ap
     return total_public_pool_ap
 
