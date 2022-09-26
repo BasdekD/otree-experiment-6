@@ -391,5 +391,5 @@ class InformedConsent(Page):
     form_fields = ['informed_consent']
 
 
-page_sequence = [InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, FeedbackIncomeRedistribution, FeedbackSwitching, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionPolitics, QuestionMobilityProbability, QuestionGeneralComment, Debriefing, InformedConsent
+page_sequence = [InitialWaitPage, SetGroupWaitPage, IntroScreenRound, ContributionHandling, QuestionFairUnfairInequality, QuestionSwitchingLikeliness, QuestionAchieveRaise, QuestionActionPointsEstimation, QuestionFairUnfairConditions, QuestionIdentifyWithGroup, QuestionPolitics, QuestionMobilityProbability, FeedbackIncomeRedistribution, FeedbackSwitching, QuestionGeneralComment, Debriefing, InformedConsent
 ]
