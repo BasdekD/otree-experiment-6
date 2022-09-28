@@ -99,18 +99,18 @@ def adjust_payrates(subsession, C):
     total_public_pool_ap = set_contributions(subsession, C)
     logging.info("Round {}, total public pool {}".format(subsession.round_number, total_public_pool_ap))
     if subsession.session.config['efficacy'] == 'high':
-        if total_public_pool_ap <= 11:
+        if total_public_pool_ap <= 17:
             pass
-        elif 12 <= total_public_pool_ap <= 23:
+        elif 18 <= total_public_pool_ap <= 29:
             subsession.final_low_income = cu(2)
             subsession.final_high_income = cu(4)
-        elif 24 <= total_public_pool_ap:
+        elif 30 <= total_public_pool_ap:
             subsession.final_low_income = cu(3)
             subsession.final_high_income = cu(3)
     else:
-        if total_public_pool_ap <= 27:
+        if total_public_pool_ap <= 33:
             pass
-        elif 28 <= total_public_pool_ap <= 39:
+        elif 34 <= total_public_pool_ap <= 39:
             subsession.final_low_income = cu(2)
             subsession.final_high_income = cu(4)
         elif total_public_pool_ap == 40:
